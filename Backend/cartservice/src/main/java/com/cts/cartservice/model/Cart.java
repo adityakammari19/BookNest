@@ -1,5 +1,6 @@
 package com.cts.cartservice.model;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -25,8 +26,11 @@ public class Cart {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Long cartId;
 	
+	private Long userId;
+	
 	@ElementCollection
 	private List<Long> cartItemId;
 	private Double totalAmount;
+	private Date dateCreated;
 
 }
