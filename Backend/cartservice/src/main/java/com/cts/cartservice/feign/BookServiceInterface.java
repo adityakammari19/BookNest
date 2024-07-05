@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.cts.cartservice.dto.BookDTO;
 
-@FeignClient(name = "book-service")
+@FeignClient("BOOK-SERVICE")
 public interface BookServiceInterface {
 	
-	@GetMapping("/books/{bookId}")
+	@GetMapping("/books/book/{bookId}")
     public BookDTO getBookById(@PathVariable("bookId") Long bookId);
 
 }

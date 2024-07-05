@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.cts.cartservice.dto.UserDTO;
 
-@FeignClient(name = "user-service")
+@FeignClient("USER-SERVICE")
 public interface UserServiceInterface {
 	
 	 @GetMapping("/users/{userId}")

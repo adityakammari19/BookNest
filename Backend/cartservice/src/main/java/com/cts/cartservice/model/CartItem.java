@@ -3,8 +3,10 @@ package com.cts.cartservice.model;
 import org.springframework.stereotype.Component;
 
 import com.cts.cartservice.dto.BookDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,8 +28,9 @@ public class CartItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Long cartItemId;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id")
+	@JsonBackReference
     private Cart cart;
 	private Long bookId;
 	private int quantity;
