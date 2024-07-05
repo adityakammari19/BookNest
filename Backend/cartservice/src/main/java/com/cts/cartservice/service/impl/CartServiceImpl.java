@@ -3,7 +3,9 @@ package com.cts.cartservice.service.impl;
 import org.springframework.stereotype.Service;
 
 import com.cts.cartservice.dto.BookDTO;
+import com.cts.cartservice.dto.UserDTO;
 import com.cts.cartservice.feign.BookServiceInterface;
+import com.cts.cartservice.feign.UserServiceInterface;
 import com.cts.cartservice.model.Cart;
 import com.cts.cartservice.model.CartItem;
 import com.cts.cartservice.repository.CartRepository;
@@ -16,6 +18,7 @@ import lombok.AllArgsConstructor;
 public class CartServiceImpl implements CartService {
 	private CartRepository cartRepository;
 	 private  BookServiceInterface bookClient;
+	 private UserServiceInterface userClient;
 
 	 public BookDTO getBookById(Long bookId) {
 	        return bookClient.getBookById(bookId);
@@ -56,6 +59,11 @@ public class CartServiceImpl implements CartService {
         cart.getCartItems().clear();
         cartRepository.save(cart);
 
+	}
+
+	@Override
+	public UserDTO getUserById(Long userId) {
+		 return userClient.getUserById(userId);
 	}
 
 }
