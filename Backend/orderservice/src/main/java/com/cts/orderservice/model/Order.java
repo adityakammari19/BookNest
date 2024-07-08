@@ -12,18 +12,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity
 @Getter @Setter @AllArgsConstructor
 @NoArgsConstructor @ToString
 @Component
+@Entity(name="orders")
 public class Order {
 	
 	@Id
@@ -33,7 +31,7 @@ public class Order {
     @Column(name = "user_id")
     private Long userId;
 
-    @Temporal(TemporalType.TIMESTAMP)
+   
     private LocalDate orderDate;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -12,9 +12,13 @@ import com.cts.orderservice.feign.CartClient;
 import com.cts.orderservice.model.Order;
 import com.cts.orderservice.model.OrderItem;
 import com.cts.orderservice.repository.OrderRepository;
+import com.cts.orderservice.service.OrderService;
+
+import lombok.AllArgsConstructor;
 
 @Service
-public class OrderServiceImpl {
+@AllArgsConstructor
+public class OrderServiceImpl implements OrderService{
 
 	@Autowired
 	private OrderRepository orderRepository;

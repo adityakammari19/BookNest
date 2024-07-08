@@ -10,8 +10,10 @@ import com.cts.userservice.model.User;
 import com.cts.userservice.repository.UserRepository;
 import com.cts.userservice.service.UserService;
 
-@Service
+import lombok.AllArgsConstructor;
 
+@Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService{
 
 	private UserRepository userRepository;

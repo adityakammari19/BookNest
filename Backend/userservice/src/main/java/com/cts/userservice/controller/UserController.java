@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cts.userservice.model.User;
 import com.cts.userservice.service.UserService;
 
+import lombok.AllArgsConstructor;
+
 @RestController
 @RequestMapping("/users")
+@AllArgsConstructor
 public class UserController {
 	private  UserService userService;
 	
@@ -29,6 +32,16 @@ public class UserController {
     @GetMapping("/{userId}")
     public Optional<User> getUserById(@PathVariable Long userId) {
         return userService.getUserById(userId);
+    }
+    
+    @GetMapping("/username/{username}")
+    public User getUserByUsername(@PathVariable String username) {
+    	return userService.getUserByUsername(username);
+    }
+    
+    @GetMapping("/email/{email}")
+    public User getUserByEmail(@PathVariable String email) {
+    	return userService.getUserByEmail(email);
     }
 
     @PostMapping

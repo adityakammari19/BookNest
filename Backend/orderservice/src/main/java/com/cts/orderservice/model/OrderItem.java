@@ -2,6 +2,8 @@ package com.cts.orderservice.model;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,10 +18,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity
 @Getter @Setter @AllArgsConstructor
 @NoArgsConstructor @ToString
 @Component
+@Entity
 public class OrderItem {
 	
 	@Id
@@ -32,6 +34,7 @@ public class OrderItem {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "order_id")
+	@JsonBackReference
 	private Order order;
 	
 	private Double price;
