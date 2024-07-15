@@ -17,14 +17,14 @@ import com.cts.bookservice.model.Book;
 import com.cts.bookservice.service.BookService;
 
 @RestController
-@RequestMapping("/books")
+@RequestMapping("/api/books")
 public class BookController {
 	@Autowired
 	private BookService bookService;
 	
 	@GetMapping
 	public ResponseEntity<List<Book>> getAllBooks() {
-		return new ResponseEntity<List<Book>>( bookService.getAllBooks(),HttpStatus.OK);
+		return new ResponseEntity<>( bookService.getAllBooks(),HttpStatus.OK);
 		
 	}
 	
@@ -36,12 +36,12 @@ public class BookController {
 	
 	@GetMapping("/categories/{category}")
 	public ResponseEntity<List<Book>> getBooksByCategory(@PathVariable String category) {
-		return new ResponseEntity<List<Book>>( bookService.findByCategory(category),HttpStatus.OK);
+		return new ResponseEntity<>( bookService.findByCategory(category),HttpStatus.OK);
 	}
 	
 	@PostMapping
 	public ResponseEntity<Book> addBook(@RequestBody Book book) {
-		return new ResponseEntity<Book>(bookService.addBook(book),HttpStatus.CREATED);
+		return new ResponseEntity<>(bookService.addBook(book),HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/book/{bookId}")
