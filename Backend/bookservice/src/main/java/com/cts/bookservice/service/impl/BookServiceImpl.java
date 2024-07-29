@@ -1,11 +1,16 @@
 package com.cts.bookservice.service.impl;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cts.bookservice.exception.BookNotFoundException;
+import com.cts.bookservice.exception.ConflictException;
 import com.cts.bookservice.model.Book;
 import com.cts.bookservice.repository.BookRepository;
 import com.cts.bookservice.service.BookService;
@@ -16,23 +21,41 @@ public class BookServiceImpl implements BookService {
 	@Autowired
 	private BookRepository bookRepository;
 	
-	@Override
-	public Book addBook(Book book) {
-		return bookRepository.save(book);
-	}
 //	@Override
-//	public Book addBook(String bookTitle,String description,String author,String category, String isbn, int pageCount,Double price) {
-//		Book tempBook = new Book();
-//		tempBook.setAuthor(author);
-//		tempBook.setBookTitle(bookTitle);
-//		tempBook.setCategory(category);
-//		tempBook.setDescription(description);
-//		tempBook.setIsbn(isbn);
-//		tempBook.setPageCount(pageCount);
-//		tempBook.setPrice(price);
-//		
-//		return bookRepository.save(tempBook);
+//	public Book addBook(Book book) {
+//		return bookRepository.save(book);
 //	}
+	@Override
+	public Book addBook(String bookTitle,String description,String author,String category, String isbn, int pageCount,Double price,MultipartFile coverImage) throws ConflictException {
+		
+		if(bookRepository.findByIsbn(isbn) != null) { 
+	          throw new ConflictException("Book already exists"); 
+	      } 
+		
+		Book tempBook = new Book();
+		
+		String coveImageFileName = StringUtils.cleanPath(coverImage.getOriginalFilename());
+		
+		if(coveImageFileName.contains("..")) {
+			System.out.println("CoverImage file is not a valid File");
+		}
+		
+		try {
+			tempBook.setCoverImage(Base64.getEncoder().encodeToString(coverImage.getBytes()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		tempBook.setAuthor(author);
+		tempBook.setBookTitle(bookTitle);
+		tempBook.setCategory(category);
+		tempBook.setDescription(description);
+		tempBook.setIsbn(isbn);
+		tempBook.setPageCount(pageCount);
+		tempBook.setPrice(price);
+		
+		return bookRepository.save(tempBook);
+	}
 
 	@Override
 	public List<Book> findByCategory(String category) {

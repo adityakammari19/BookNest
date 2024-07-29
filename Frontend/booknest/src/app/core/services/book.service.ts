@@ -20,8 +20,8 @@ export class BookService {
     return this.http.get<Book>(`${this.baseUrl}/${id}`);
   }
  
-  addBook(book: Book): Observable<Book> {
-return this.http.post<Book>(`${this.baseUrl}`, book);
+  addBook(bookData: FormData): Observable<Book> {
+return this.http.post<Book>(`${this.baseUrl}`, bookData);
   }
  
   updateBook(id: number, book: Book): Observable<Book> {

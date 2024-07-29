@@ -15,7 +15,7 @@ export const routes: Routes = [
   { path: 'books/:id', component: BookDetailComponent },
   { path: 'cart', component: CartComponent },
   { path: 'checkout', component: CheckoutComponent },
-  { path: 'order-summary', component: OrderSummaryComponent },
+  { path: 'orders', component: OrderSummaryComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'admin', component: DashboardComponent },

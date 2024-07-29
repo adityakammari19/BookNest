@@ -11,6 +11,7 @@ import { BookService } from '../../services/book.service';
 })
 export class BookListComponent implements OnInit {
   books: Book[] = [];
+  book: Book | undefined;
  
   constructor(private bookService: BookService) { }
  
@@ -19,5 +20,9 @@ export class BookListComponent implements OnInit {
       this.books = books;
       console.log(books)
     });
+  }
+
+  getCoverImage(coverImage:string ): string{
+    return `data:image/jpeg;base64,${coverImage}`
   }
 }

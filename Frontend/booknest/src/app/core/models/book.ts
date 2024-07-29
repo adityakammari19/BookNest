@@ -5,5 +5,7 @@ export interface Book {
     price: number;
     category: string;
     description: string;
+    pageCount:string;
+    coverImage: string;
 
 }

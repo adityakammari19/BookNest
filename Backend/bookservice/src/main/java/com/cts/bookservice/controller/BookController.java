@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.cts.bookservice.exception.ConflictException;
 import com.cts.bookservice.model.Book;
 import com.cts.bookservice.service.BookService;
 
@@ -40,8 +42,18 @@ public class BookController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Book> addBook(@RequestBody Book book) {
-		return new ResponseEntity<>(bookService.addBook(book),HttpStatus.CREATED);
+	public ResponseEntity<Book> addBook(@RequestParam("bookTitle") String bookTitle,
+            @RequestParam("author") String author,
+            @RequestParam("price") Double price,
+            @RequestParam("description") String description,
+            @RequestParam("isbn") String isbn,
+            @RequestParam("category") String category,
+            @RequestParam("pageCount") int pageCount,
+            @RequestParam(value = "coverImage") MultipartFile coverImage) throws ConflictException {
+		
+			Book savedBook = bookService.addBook(bookTitle,description,author,category,isbn,pageCount,price,coverImage);
+		
+		return new ResponseEntity<>(savedBook,HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/book/{bookId}")

@@ -2,10 +2,12 @@ package com.cts.bookservice.model;
 
 import org.springframework.stereotype.Component;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +30,10 @@ public class Book {
 	private int pageCount;
 	private String category;
 	private Double price;
+	
+	@Lob
+	@Column(columnDefinition = "mediumblob")
+	private String coverImage;
 	
 	
 

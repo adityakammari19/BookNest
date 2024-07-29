@@ -1,1 +1,36 @@
-<p>header works!</p>
+<header class="border-bottom border-light border-5 mb-5 p-2  bg-dark-subtle  ">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        <div class="container">
+            <a class="navbar-brand ms-2 fs-2 fw-bold text-black" routerLink='/'>BookNest</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto ">
+                    <li class="nav-item">
+                        <!-- {isAuthenticated && <Link class="nav-link" to={{ pathname: `/welcome/${username}` }}>Home</Link>} -->
+                    </li>
+                    <li class="nav-item">
+                        <!-- {isAuthenticated && <Link class="nav-link" to="/subscriptions">Subscriptions</Link>} -->
+                        <a  class="nav-link" routerLink="/cart" routerLinkActive="active">View Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <!-- {isAuthenticated && <Link class="nav-link" to="/publications">Publications</Link>} -->
+                        <a  class="nav-link" routerLink="/orders" routerLinkActive="active">Orders</a>
+
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto ">
+                    <li class="nav-item">
+                        <!-- {!isAuthenticated && <Link class="nav-link" to="/login">Login</Link>} -->
+                        <a  class="nav-link" routerLink="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <!-- {isAuthenticated && <Link class="nav-link" to="/logout" onClick={logout}>Logout</Link>} -->
+                        <a  class="nav-link" routerLink="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
