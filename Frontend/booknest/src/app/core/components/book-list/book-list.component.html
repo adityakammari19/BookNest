@@ -1,14 +1,29 @@
 <p>book-list works!</p>
-@for (book of books; track book.bookId) {
-    <div >
-        <div class="image-container justify-content-center" style="height: 200px; width: 150px;">
-            <img [src]="getCoverImage(book.coverImage )" class="card-img-top img-fluid img-responsive rounded mx-auto d-block" alt={title} />
-        </div>
-        <div class="container">
-        <h3>{{ book.bookTitle }}</h3>
-        <p>{{ book.author }}</p>
-        <p>{{ book.price }}</p>
-    </div>
-        </div>
-}
-    
+<div class="row p-5">
+  @for (book of books; track book.bookId) {
+  <!-- <div>
+  <div
+    class="image-container justify-content-center"
+    style="height: 200px; width: 150px"
+  >
+    <img
+      [src]="getCoverImage(book.coverImage)"
+      class="card-img-top img-fluid img-responsive rounded mx-auto d-block"
+      alt="{title}"
+    />
+  </div>
+  <div class="container">
+    <h3>{{ book.bookTitle }}</h3>
+    <p>{{ book.author }}</p>
+    <p>{{ book.price }}</p>
+  </div>
+</div> -->
+  <div
+    class="col-md-6 col-lg-4 mb-3 ml-3 shadow p-3"
+    style="justify-content: space-between"
+  >
+    <app-book-card [book]="book"></app-book-card>
+  </div>
+
+  }
+</div>

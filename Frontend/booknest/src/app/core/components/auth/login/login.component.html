@@ -1,10 +1,32 @@
-<p>login works!</p>
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <label for="email">Email</label>
-    <input id="email" formControlName="email" type="email" />
-   
-    <label for="password">Password</label>
-    <input id="password" formControlName="password" type="password" />
-   
-    <button type="submit">Login</button>
-  </form>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="card p-4" style="width: 100%; max-width: 400px">
+    <h2 class="text-center mb-4">Login</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input
+          id="username"
+          formControlName="username"
+          class="form-control"
+          type="text"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input
+          id="password"
+          formControlName="password"
+          class="form-control"
+          type="password"
+        />
+      </div>
+      <button class="btn btn-primary" type="submit">Login</button>
+    </form>
+    <div class="text-center">
+      <p>
+        Not a member?
+        <a class="nav-link text-primary" routerLink="/register">Register</a>
+      </p>
+    </div>
+  </div>
+</div>

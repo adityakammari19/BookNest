@@ -1,0 +1,10 @@
+<div class="list-group mt-5">
+  <h4 class="list-group-item list-group-item-secondary">Categories</h4>
+  <a
+    *ngFor="let category of categories"
+    class="list-group-item"
+    (click)="onCategoryClick(category)"
+  >
+    {{ category }}
+  </a>
+</div>

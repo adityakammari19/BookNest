@@ -9,13 +9,20 @@ import { RegisterComponent } from './core/components/auth/register/register.comp
 import { DashboardComponent } from './core/components/admin/dashboard/dashboard.component';
 import { AddBookComponent } from './core/components/admin/add-book/add-book.component';
 import { ManageBookComponent } from './core/components/admin/manage-book/manage-book.component';
+import { AboutComponent } from './core/components/about/about.component';
+import { ContactComponent } from './core/components/contact/contact.component';
+import { HomeComponent } from './core/components/home/home.component';
 
 export const routes: Routes = [
-    { path: '', component: BookListComponent },
-  { path: 'books/:id', component: BookDetailComponent },
-  { path: 'cart', component: CartComponent },
+  { path: '', component: HomeComponent , children:[
+      {path: 'about', component: AboutComponent },
+      {path: 'contact', component: ContactComponent },
+      { path: 'cart', component: CartComponent },
   { path: 'checkout', component: CheckoutComponent },
   { path: 'orders', component: OrderSummaryComponent },
+  { path: 'books/:id', component: BookDetailComponent },
+    ]},
+  
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'admin', component: DashboardComponent },

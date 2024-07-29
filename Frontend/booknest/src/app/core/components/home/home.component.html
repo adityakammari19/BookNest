@@ -1,0 +1,22 @@
+<app-header />
+<div class="container-fluid">
+  <router-outlet />
+  <ng-container
+    *ngIf="
+      !router.url.includes('about') &&
+      !router.url.includes('contact') &&
+      !router.url.includes('cart') &&
+      !router.url.includes('orders') &&
+      !router.url.includes('books')
+    "
+  >
+    <div class="row">
+      <div class="col-md-3">
+        <app-category-sidebar />
+      </div>
+      <div class="col-md-9">
+        <app-book-list />
+      </div>
+    </div>
+  </ng-container>
+</div>

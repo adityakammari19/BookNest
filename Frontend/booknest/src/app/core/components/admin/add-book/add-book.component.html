@@ -1,29 +1,32 @@
-<div class="container">
+<div class="container d-flex justify-content-center align-items-center">
+  <div class="card p-4" style="width: 100%; max-width: 500px">
+    <h2 class="text-center mb-4">Add Book</h2>
     <form [formGroup]="bookForm" class="row g-3" (ngSubmit)="onSubmit()">
-    <label for="bookTitle">Title</label>
-    <input id="bookTitle" formControlName="bookTitle" type="text" />
-   
-    <label for="author">Author</label>
-    <input id="author" formControlName="author" type="text" />
-   
-    <label for="price">Price</label>
-    <input id="price" formControlName="price" type="number" />
+      <label for="bookTitle">Title</label>
+      <input id="bookTitle" formControlName="bookTitle" type="text" />
 
-    <label for="pageCount">Page Count</label>
-    <input id="pageCount" formControlName="pageCount" type="number" />
-   
-    <label for="category">Category</label>
-    <input id="category" formControlName="category" type="text" />
+      <label for="author">Author</label>
+      <input id="author" formControlName="author" type="text" />
 
-    <label for="isbn">ISBN</label>
-    <input id="isbn" formControlName="isbn" type="text" />
-   
-    <label for="description">Description</label>
-    <textarea id="description" formControlName="description"></textarea>
-   
-    <label for="coverImage">Cover Image</label>
-    <input id="coverImage" type="file" (change)="onFileChange($event)" />
-   
-    <button type="submit" class="col-12">Add Book</button>
-  </form>
+      <label for="price">Price</label>
+      <input id="price" formControlName="price" type="number" />
+
+      <label for="pageCount">Page Count</label>
+      <input id="pageCount" formControlName="pageCount" type="number" />
+
+      <label for="category">Category</label>
+      <input id="category" formControlName="category" type="text" />
+
+      <label for="isbn">ISBN</label>
+      <input id="isbn" formControlName="isbn" type="text" />
+
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description"></textarea>
+
+      <label for="coverImage">Cover Image</label>
+      <input id="coverImage" type="file" (change)="onFileChange($event)" />
+
+      <button type="submit" class="col-12">Add Book</button>
+    </form>
+  </div>
 </div>

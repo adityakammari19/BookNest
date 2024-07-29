@@ -10,4 +10,9 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class HeaderComponent {
 
+
+  onSearch(event: any):void{
+    const searchTerm = event.target.value;
+    console.log(searchTerm);
+  }
 }
