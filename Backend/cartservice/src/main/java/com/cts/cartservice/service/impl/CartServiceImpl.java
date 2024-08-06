@@ -1,5 +1,8 @@
 package com.cts.cartservice.service.impl;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.cts.cartservice.dto.BookDTO;
@@ -33,25 +36,91 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public CartItem addToCart(Long userId, Long bookId, int quantity) {
+	public Cart addToCart(Long userId, Long bookId, int quantity) {
+		Cart cart = getCartByUserId(userId);
+		if (cart == null) {
+			cart = new Cart();
+			cart.setUserId(userId);
+			cart.setCartItems(new ArrayList<>());
+		}
+		
+		
 		// Fetch book details
         BookDTO book = bookClient.getBookById(bookId);
         
-		Cart cart = getCartByUserId(userId);
         CartItem cartItem = new CartItem(bookId, quantity);
         cartItem.setBook(book);
         cart.addCartItem(cartItem);
         cartRepository.save(cart);
-        return cartItem;
+        return cart;
+        
+ 
+//        BookDTO book = bookClient.getBookById(bookId);
+//        Optional<CartItem> existingCartItem = cart.getCartItems().stream()
+//            .filter(item -> item.getBookId().equals(bookId))
+//            .findFirst();
+// 
+//        if (existingCartItem.isPresent()) {
+//            existingCartItem.get().setQuantity(existingCartItem.get().getQuantity() + 1);
+//        } else {
+//            CartItem cartItem = new CartItem();
+//            cartItem.setBookId(book.getBookId());
+//            cartItem.setQuantity(1);
+//            cartItem.setBook(book);
+//            cart.getCartItems().add(cartItem);
+//        }
+//        cartRepository.save(cart);
+//        return cart;
 	}
 
 	@Override
-	public void removeFromCart(Long userId, Long cartItemId) {
+	public void removeFromCart(Long userId, Long bookId) {
 		Cart cart = getCartByUserId(userId);
-        cart.getCartItems().removeIf(cartItem -> cartItem.getCartItemId().equals(cartItemId));
+        cart.getCartItems().removeIf(cartItem -> cartItem.getBookId().equals(bookId));
         cartRepository.save(cart);
 
 	}
+	@Override
+	public int getBookQuantityFromCart(Long userId, Long bookId) {
+		Cart cart = getCartByUserId(userId);
+	
+		if(cart != null) {
+			Optional<CartItem> cartItem =  cart.getCartItems().stream()
+		            .filter(item -> item.getBookId().equals(bookId))
+		            .findFirst();
+			if(cartItem.isPresent()) {
+				return cartItem.get().getQuantity();
+			}
+		}
+		return 0;
+		
+	}
+	
+	public Cart incrementCartQuantity(Long userId, Long bookId) {
+        Cart cart = getCartByUserId(userId);
+        if (cart != null) {
+            cart.getCartItems().forEach(cartItem -> {
+                if (cartItem.getBookId().equals(bookId)) {
+                    cartItem.setQuantity(cartItem.getQuantity() + 1);
+                }
+            });
+            return cartRepository.save(cart);
+        }
+        return null;
+    }
+ 
+    public Cart decrementCartQuantity(Long userId, Long bookId) {
+        Cart cart = getCartByUserId(userId);
+        if (cart != null) {
+            cart.getCartItems().forEach(cartItem -> {
+                if (cartItem.getBookId().equals(bookId) && cartItem.getQuantity() > 1) {
+                    cartItem.setQuantity(cartItem.getQuantity() - 1);
+                }
+            });
+            return cartRepository.save(cart);
+        }
+        return null;
+    }
 
 	@Override
 	public void clearCart(Long userId) {
@@ -59,6 +128,18 @@ public class CartServiceImpl implements CartService {
         cart.getCartItems().clear();
         cartRepository.save(cart);
 
+	}
+	
+	@Override
+	public CartItem findCartItemByUserIdAndBookId(Long userId, Long bookId) {
+        Cart cart = getCartByUserId(userId);
+        if (cart != null) {
+            return cart.getCartItems().stream()
+                .filter(cartItem -> cartItem.getBookId().equals(bookId))
+                .findFirst()
+                .orElse(null);
+        }
+        return null;
 	}
 
 	@Override

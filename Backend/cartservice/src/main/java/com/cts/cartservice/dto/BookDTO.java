@@ -15,4 +15,5 @@ public class BookDTO {
 	private int pageCount;
 	private String category;
 	private Double price;
+	private String coverImage;
 }

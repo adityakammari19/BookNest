@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserService } from '../../../services/user.service';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,21 +12,29 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, ReactiveFormsModule, RouterLink]
 })
 export class LoginComponent {
+  username = '';
+  password = '';
+  errorMessage = '';
 
   loginForm: FormGroup;
  
-  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
 this.loginForm = this.fb.group({
-email: ['', [Validators.required, Validators.email]],
+username: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
   }
  
   onSubmit(): void {
     if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
-      this.userService.login(email, password).subscribe(() => {
+      const { username, password } = this.loginForm.value;
+      this.authService.login({username, password}).subscribe(
+        response => {
+        // this.authService.saveToken(response.token);
         this.router.navigate(['/']);
+      },
+      error => {
+        this.errorMessage = 'Invalid username or password';
       });
     }
   }

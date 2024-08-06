@@ -18,11 +18,13 @@ public class ApiGatewayConfiguration {
 						.uri("lb://order-service"))
 				.route(p -> p.path("/api/users/**")
 						.uri("lb://user-service"))
-//				.route(p -> p.path("/currency-conversion-new/**")
+				.route(p -> p.path("/api/auth/**")
+						.uri("lb://user-service"))
+//				.route(p -> p.path("/api/books/new/**")
 //						.filters(f -> f.rewritePath(
-//								"/currency-conversion-new/(?<segment>.*)", 
-//								"/currency-conversion-feign/${segment}"))
-//						.uri("lb://currency-conversion"))
+//								"/api/books/new/(?<segment>.*)", 
+//								"/api/books/${segment}"))
+//						.uri("lb://book-service"))
 				.build();
 	}
 

@@ -9,7 +9,7 @@ import com.cts.cartservice.dto.UserDTO;
 @FeignClient("USER-SERVICE")
 public interface UserServiceInterface {
 	
-	 @GetMapping("/users/{userId}")
+	 @GetMapping("/api/users/{userId}")
 	    UserDTO getUserById(@PathVariable("userId") Long userId);
 
 }

@@ -36,7 +36,12 @@ public class BookController {
 		
 	}
 	
-	@GetMapping("/categories/{category}")
+	@GetMapping("/categories")
+    public ResponseEntity<List<String>> getUniqueCategories() {
+        return ResponseEntity.ok(bookService.getUniqueCategories());
+    }
+	
+	@GetMapping("/category/{category}")
 	public ResponseEntity<List<Book>> getBooksByCategory(@PathVariable String category) {
 		return new ResponseEntity<>( bookService.findByCategory(category),HttpStatus.OK);
 	}
@@ -47,11 +52,11 @@ public class BookController {
             @RequestParam("price") Double price,
             @RequestParam("description") String description,
             @RequestParam("isbn") String isbn,
-            @RequestParam("category") String category,
+            @RequestParam("categories") List<String> categories,
             @RequestParam("pageCount") int pageCount,
             @RequestParam(value = "coverImage") MultipartFile coverImage) throws ConflictException {
 		
-			Book savedBook = bookService.addBook(bookTitle,description,author,category,isbn,pageCount,price,coverImage);
+			Book savedBook = bookService.addBook(bookTitle,description,author,categories,isbn,pageCount,price,coverImage);
 		
 		return new ResponseEntity<>(savedBook,HttpStatus.CREATED);
 	}
@@ -61,6 +66,11 @@ public class BookController {
 		bookService.deleteBook(bookId);
 		return new ResponseEntity<>("Successfully Deleted book with id:"+bookId,HttpStatus.OK);
 		
+	}
+	
+	@GetMapping("/search")
+	public ResponseEntity<List<Book>> searchBooksByTitleOrAuthor(@RequestParam String keyword){
+		return new ResponseEntity<>(bookService.searchBooksByTitleOrAuthor(keyword),HttpStatus.OK);
 	}
 
 }

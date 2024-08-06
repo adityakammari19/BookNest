@@ -1,4 +1,52 @@
-<div class="container mt-4">
-  <h2>View Cart</h2>
-  <p>This is the View Cart page.</p>
+<div class="container mt-5">
+  <h2>My Cart</h2>
+  <div *ngIf="cart?.cartItems?.length">
+    <div
+      class="row"
+      style="background-color: rgb(210, 228, 228)"
+      *ngFor="let cartItem of cart?.cartItems"
+    >
+      <div class="col-md-4" style="width: 150px; height: 200px">
+        <img
+          [src]="getCoverImage(cartItem.book.coverImage)"
+          class="card-img-top img-fluid img-responsive rounded mx-auto d-block"
+          alt="{{ cartItem.book.bookTitle }}"
+        />
+      </div>
+      <div class="col-md-8">
+        <h4>{{ cartItem.book.bookTitle }}</h4>
+        <p>Price: {{ cartItem.book.price | currency : "INR" }}</p>
+        <p>Quantity: {{ cartItem.quantity }}</p>
+
+        <div class="btn-group" role="group">
+          <button
+            class="btn btn-secondary"
+            (click)="decrementFromCart(cartItem.bookId)"
+          >
+            -
+          </button>
+          <span class="btn btn-outline-secondary">{{ cartItem.quantity }}</span>
+          <button
+            class="btn btn-secondary"
+            (click)="incrementFromCart(cartItem.bookId)"
+          >
+            +
+          </button>
+        </div>
+        <button
+          class="btn btn-danger m-2"
+          (click)="removeCartItemFromCart(cartItem.bookId)"
+        >
+          remove
+        </button>
+      </div>
+    </div>
+    <div class="mt-3">
+      <!-- <h3>Total: {{ cart.totalAmount | currency }}</h3> -->
+      <button class="btn btn-danger" (click)="clearCart()">Clear Cart</button>
+    </div>
+  </div>
+  <div *ngIf="!cart?.cartItems?.length">
+    <p>Your cart is empty</p>
+  </div>
 </div>

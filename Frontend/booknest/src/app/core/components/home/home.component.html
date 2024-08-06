@@ -12,10 +12,12 @@
   >
     <div class="row">
       <div class="col-md-3">
-        <app-category-sidebar />
+        <app-category-sidebar
+          (categorySelected)="onCategorySelected($event)"
+        ></app-category-sidebar>
       </div>
       <div class="col-md-9">
-        <app-book-list />
+        <app-book-list [books]="books" />
       </div>
     </div>
   </ng-container>

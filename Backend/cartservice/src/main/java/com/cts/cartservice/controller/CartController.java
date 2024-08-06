@@ -1,5 +1,8 @@
 package com.cts.cartservice.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cts.cartservice.dto.BookDTO;
@@ -34,20 +38,48 @@ public class CartController {
     }
 
 	@PostMapping("/user/{userId}")
-    public ResponseEntity<CartItem> addToCart(@PathVariable Long userId, @RequestBody CartItem cartItem) {
+    public ResponseEntity<Cart> addToCart(@PathVariable Long userId, @RequestBody CartItem cartItem) {
         return new ResponseEntity<>(cartService.addToCart(userId, cartItem.getBookId(), cartItem.getQuantity()),HttpStatus.CREATED);
     }
 	
-	@DeleteMapping("/user/{userId}/item/{cartItemId}")
-    public ResponseEntity<String> removeFromCart(@PathVariable Long userId, @PathVariable Long cartItemId) {
-        cartService.removeFromCart(userId, cartItemId);
-        return new ResponseEntity<>("Successfully Deleted CartItem with id:"+cartItemId+" and User with id:"+userId,HttpStatus.OK);
+	@GetMapping("/book/quantity")
+    public  ResponseEntity<Integer> getBookQuantityFromCart(@RequestParam Long userId, @RequestParam Long bookId) {
+        return ResponseEntity.ok(cartService.getBookQuantityFromCart(userId, bookId));
+    }
+	
+	 @PostMapping("/book/quantity/increment")
+	    public ResponseEntity<Cart> incrementCartQuantity(@RequestParam Long userId, @RequestParam Long bookId) {
+		 System.out.println(userId);
+	        return ResponseEntity.ok(cartService.incrementCartQuantity(userId, bookId));
+	    }
+	 
+	    @PostMapping("/book/quantity/decrement")
+	    public ResponseEntity<Cart> decrementCartQuantity(@RequestParam Long userId, @RequestParam Long bookId) {
+	        return ResponseEntity.ok(cartService.decrementCartQuantity(userId, bookId));
+	    }
+	
+	@DeleteMapping("/book/removeFromCart")
+    public ResponseEntity<Map<String, String>> removeFromCart(@RequestParam Long userId, @RequestParam Long bookId) {
+        cartService.removeFromCart(userId, bookId);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Successfully Deleted CartItem with id:"+bookId+" and User with id:"+userId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+	
+	@GetMapping("/book/isInCart")
+    public ResponseEntity<CartItem> isBookInCart(@RequestParam Long userId, @RequestParam Long bookId) {
+        CartItem cartItem = cartService.findCartItemByUserIdAndBookId(userId, bookId);
+        if (cartItem != null) {
+            return ResponseEntity.ok(cartItem);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
-    @DeleteMapping("/user/{userId}/clear")
-    public ResponseEntity<String> clearCart(@PathVariable Long userId) {
+    @DeleteMapping("/user/{userId}/clearCart")
+    public ResponseEntity<Map<String, String>> clearCart(@PathVariable Long userId) {
         cartService.clearCart(userId);
-        return new ResponseEntity<>("Successfully Deleted Cart with User id:"+userId,HttpStatus.OK);
-        
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Successfully Deleted Cart with User id:" + userId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -3,6 +3,7 @@ package com.cts.bookservice.service.impl;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class BookServiceImpl implements BookService {
 //		return bookRepository.save(book);
 //	}
 	@Override
-	public Book addBook(String bookTitle,String description,String author,String category, String isbn, int pageCount,Double price,MultipartFile coverImage) throws ConflictException {
+	public Book addBook(String bookTitle,String description,String author,List<String> categories, String isbn, int pageCount,Double price,MultipartFile coverImage) throws ConflictException {
 		
 		if(bookRepository.findByIsbn(isbn) != null) { 
 	          throw new ConflictException("Book already exists"); 
@@ -48,7 +49,7 @@ public class BookServiceImpl implements BookService {
 		
 		tempBook.setAuthor(author);
 		tempBook.setBookTitle(bookTitle);
-		tempBook.setCategory(category);
+		tempBook.setCategories(categories);
 		tempBook.setDescription(description);
 		tempBook.setIsbn(isbn);
 		tempBook.setPageCount(pageCount);
@@ -56,10 +57,19 @@ public class BookServiceImpl implements BookService {
 		
 		return bookRepository.save(tempBook);
 	}
+	
+	@Override
+	public List<String> getUniqueCategories() {
+        List<Book> books = bookRepository.findAll();
+        return books.stream()
+                .flatMap(book -> book.getCategories().stream())
+                .distinct()
+                .collect(Collectors.toList());
+    }
 
 	@Override
 	public List<Book> findByCategory(String category) {
-		return bookRepository.findByCategory(category);
+		return bookRepository.findByCategoriesContaining(category);
 	}
 
 	@Override
@@ -83,6 +93,11 @@ public class BookServiceImpl implements BookService {
 		bookRepository.findById(id)
 				.orElseThrow(() -> new BookNotFoundException("Book not found with id " + id));
 		bookRepository.deleteById(id);
+	}
+
+	@Override
+	public List<Book> searchBooksByTitleOrAuthor(String keyword) {
+		return bookRepository.searchByBookTitleOrAuthor(keyword);
 	}
 
 }

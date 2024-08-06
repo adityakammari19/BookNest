@@ -10,7 +10,7 @@ import com.cts.cartservice.dto.BookDTO;
 @FeignClient("BOOK-SERVICE")
 public interface BookServiceInterface {
 	
-	@GetMapping("/books/book/{bookId}")
+	@GetMapping("/api/books/book/{bookId}")
     public BookDTO getBookById(@PathVariable("bookId") Long bookId);
 
 }

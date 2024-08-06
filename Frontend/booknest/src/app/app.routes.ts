@@ -12,20 +12,25 @@ import { ManageBookComponent } from './core/components/admin/manage-book/manage-
 import { AboutComponent } from './core/components/about/about.component';
 import { ContactComponent } from './core/components/contact/contact.component';
 import { HomeComponent } from './core/components/home/home.component';
+import { OrderHistoryComponent } from './core/components/order-history/order-history.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent , children:[
-      {path: 'about', component: AboutComponent },
-      {path: 'contact', component: ContactComponent },
+  {
+    path: '',
+    component: HomeComponent,
+    children: [
+      { path: 'about', component: AboutComponent },
+      { path: 'contact', component: ContactComponent },
       { path: 'cart', component: CartComponent },
-  { path: 'checkout', component: CheckoutComponent },
-  { path: 'orders', component: OrderSummaryComponent },
-  { path: 'books/:id', component: BookDetailComponent },
-    ]},
-  
+      { path: 'checkout', component: CheckoutComponent },
+      { path: 'orders', component: OrderHistoryComponent },
+      { path: 'books/:id', component: BookDetailComponent },
+    ],
+  },
+
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'admin', component: DashboardComponent },
   { path: 'admin/add-book', component: AddBookComponent },
-  { path: 'admin/manage-books', component: ManageBookComponent }
+  { path: 'admin/manage-books', component: ManageBookComponent },
 ];

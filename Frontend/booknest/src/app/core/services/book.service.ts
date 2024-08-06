@@ -4,31 +4,42 @@ import { Book } from '../models/book';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BookService {
-
   private baseUrl = 'http://localhost:8765/api/books';
- 
-  constructor(private http: HttpClient) { }
- 
+
+  constructor(private http: HttpClient) {}
+
   getBooks(): Observable<Book[]> {
     return this.http.get<Book[]>(`${this.baseUrl}`);
   }
- 
+
   getBookById(id: number): Observable<Book> {
-    return this.http.get<Book>(`${this.baseUrl}/${id}`);
+    return this.http.get<Book>(`${this.baseUrl}/book/${id}`);
   }
- 
+
   addBook(bookData: FormData): Observable<Book> {
-return this.http.post<Book>(`${this.baseUrl}`, bookData);
+    return this.http.post<Book>(`${this.baseUrl}`, bookData);
   }
- 
+
   updateBook(id: number, book: Book): Observable<Book> {
     return this.http.put<Book>(`${this.baseUrl}/${id}`, book);
   }
- 
+
   deleteBook(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  getCategories(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseUrl}/categories`);
+  }
+
+  getBooksByCategory(category: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/category/${category}`);
+  }
+
+  searchBooksByTitleOrAuthor(keyword: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/search?keyword=${keyword}`);
   }
 }
