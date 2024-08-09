@@ -5,7 +5,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.cts.userservice.exception.UserConflictException;
 import com.cts.userservice.exception.UserNotFoundException;
+import com.cts.userservice.model.Address;
 import com.cts.userservice.model.User;
 import com.cts.userservice.repository.UserRepository;
 import com.cts.userservice.service.UserService;
@@ -39,8 +41,11 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User createUser(User user) {
+	public User createUser(User user) throws UserConflictException {
 //		 user.setPassword(passwordEncoder.encode(user.getPassword()));
+		if (getUserByUsername(user.getUsername()) != null) {
+			throw new UserConflictException("User already exists with username " + user.getUsername());
+			}
 			return userRepository.save(user);
 	}
 
@@ -70,5 +75,17 @@ public class UserServiceImpl implements UserService{
 		userRepository.deleteById(userId);
 		
 	}
+	
+	
+	public List<Address> getUserAddresses(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getAddresses();
+    }
+ 
+    public void addUserAddress(Long userId, Address address) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.getAddresses().add(address);
+        userRepository.save(user);
+    }
 
 }

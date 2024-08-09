@@ -37,8 +37,6 @@ public class OrderItem {
 	@JsonBackReference
 	private Order order;
 	
-	private Double price;
-	
 	public OrderItem(Long bookId, int quantity) {
         this.bookId = bookId;
         this.quantity = quantity;

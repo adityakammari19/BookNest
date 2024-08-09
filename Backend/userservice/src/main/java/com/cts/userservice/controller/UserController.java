@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cts.userservice.model.Address;
 import com.cts.userservice.model.User;
 import com.cts.userservice.service.UserService;
 
@@ -48,10 +48,10 @@ public class UserController {
     	return ResponseEntity.ok(userService.getUserByEmail(email));
     }
 
-    @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
-    }
+//    @PostMapping
+//    public ResponseEntity<User> createUser(@RequestBody User user) {
+//        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
+//    }
     
     @PutMapping("/{userId}")
     public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody User user) {
@@ -61,6 +61,18 @@ public class UserController {
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
+        return ResponseEntity.ok().build();
+    }
+    
+    @GetMapping("/user/{userId}/addresses")
+    public ResponseEntity<List<Address>> getUserAddresses(@PathVariable Long userId) {
+        List<Address> addresses = userService.getUserAddresses(userId);
+        return ResponseEntity.ok(addresses);
+    }
+ 
+    @PostMapping("/user/{userId}/addresses")
+    public ResponseEntity<Void> addUserAddress(@PathVariable Long userId, @RequestBody Address address) {
+        userService.addUserAddress(userId, address);
         return ResponseEntity.ok().build();
     }
 

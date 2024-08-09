@@ -1,0 +1,22 @@
+.dynamic-title {
+    font-size: 1.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  @media (max-width: 768px) {
+    .dynamic-title {
+      font-size: 1.2em;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .dynamic-title {
+      font-size: 1em;
+    }
+  }
+  

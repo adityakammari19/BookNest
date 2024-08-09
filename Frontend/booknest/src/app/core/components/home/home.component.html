@@ -1,15 +1,44 @@
 <app-header />
-<div class="container-fluid">
-  <router-outlet />
-  <ng-container
-    *ngIf="
-      !router.url.includes('about') &&
-      !router.url.includes('contact') &&
-      !router.url.includes('cart') &&
-      !router.url.includes('orders') &&
-      !router.url.includes('books')
-    "
-  >
+<app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+<div *ngIf="!isLoading">
+  <div class="container-fluid">
+    <ng-container
+      *ngIf="
+        router.url.includes('about') ||
+        router.url.includes('contact') ||
+        router.url.includes('cart') ||
+        router.url.includes('orders') ||
+        router.url.includes('bookdetailed')
+      "
+    >
+      <router-outlet />
+    </ng-container>
+    <ng-container
+      *ngIf="
+        !router.url.includes('about') &&
+        !router.url.includes('contact') &&
+        !router.url.includes('cart') &&
+        !router.url.includes('orders') &&
+        !router.url.includes('bookdetailed')
+      "
+    >
+      <div class="row">
+        <div class="col-md-3">
+          <app-category-sidebar
+            (categorySelected)="onCategorySelected($event)"
+          ></app-category-sidebar>
+        </div>
+        <div class="col-md-9">
+          <app-book-list [books]="books" />
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+<!-- <app-header></app-header>
+<app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+<div *ngIf="!isLoading">
+  <div class="container-fluid">
     <div class="row">
       <div class="col-md-3">
         <app-category-sidebar
@@ -17,8 +46,9 @@
         ></app-category-sidebar>
       </div>
       <div class="col-md-9">
-        <app-book-list [books]="books" />
+        <router-outlet></router-outlet>
       </div>
     </div>
-  </ng-container>
-</div>
+  </div>
+</div> -->
+<!-- <app-footer></app-footer> -->

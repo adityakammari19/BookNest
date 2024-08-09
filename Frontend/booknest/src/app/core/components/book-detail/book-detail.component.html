@@ -1,79 +1,49 @@
-<!-- <p>book-detail works!</p>
-<div class="container">
-  <div class="row medium-padding120">
-    <div class="book-details">
-      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
-        <div class="book-details-thumb">
-          <img src="https://placehold.co/150x200/grey/white" alt="product" />
-          <div class="image-container" style="height: 200px; width: 150px">
-            <img
-              [src]="getCoverImage(book?.coverImage)"
-              class="card-img-top img-fluid img-responsive rounded mx-auto d-block"
-              alt="{{ book?.bookTitle }}"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div
-        class="col-lg-6 col-lg-offset-1 col-md-6 col-md-offset-1 col-sm-6 col-sm-offset-1 col-xs-12 col-xs-offset-0"
-      >
-        <div class="product-details-info">
-          <div class="product-details-info-price">product.unitPrice</div>
-          <h3 class="product-details-info-title">product.name</h3>
-          <p class="product-details-info-text">product.description</p>
-          <!-- <div class="product-details-info-price">{{ product.unitPrice | currency:'USD' }}</div>
-                    <h3 class="product-details-info-title">{{ product.name}}</h3>
-                    <p class="product-details-info-text">{{product.description}}</p> -->
-
-<!-- <div class="quantity">
-                        <a href="#" class="quantity-minus">-</a>
-                        <input title="Qty" class="email input-text qty text" type="text" value="2">
-                        <a href="#" class="quantity-plus">+</a>
-                    </div> -->
-
-<!-- <button class="btn btn-medium btn--primary">
-             <button (click)="addToCart()" class="btn btn-medium btn--primary"> -->
-<!-- <span class="text">Add to Cart</span>
-            <i class="seoicon-commerce"></i>
-            <span class="semicircle"></span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>  -->
 <div class="container mt-5">
   <div class="row">
-    <div class="col-md-4">
+    <div
+      class="col-md-4 d-flex justify-content-center align-items-center"
+      style="height: 100%"
+    >
       <img
-        [src]="'data:image/jpeg;base64,' + book.coverImage"
-        alt="{{ book.bookTitle }}"
+        [src]="'data:image/jpeg;base64,' + book?.coverImage"
+        alt="{{ book?.bookTitle }}"
         class="img-fluid"
+        style="max-height: 100%; max-width: 100%; object-fit: contain"
       />
     </div>
+
     <div class="col-md-8">
-      <h2>{{ book.bookTitle }}</h2>
-      <p><strong>Author:</strong> {{ book.author }}</p>
-      <p><strong>Genres:</strong> {{ book.categories }}</p>
-      <p><strong>Pages:</strong> {{ book.pageCount }}</p>
-      <p><strong>Price:</strong> {{ book.price | currency : "INR" }}</p>
+      <h2>{{ book?.bookTitle }}</h2>
+      <p>
+        Book by <strong>{{ book?.author }}</strong>
+      </p>
+      <p><strong>Genres:</strong> {{ book?.categories }}</p>
+      <p><strong>Pages:</strong> {{ book?.pageCount }}</p>
+      <p><strong>Price:</strong> {{ book?.price | currency : "INR" }}</p>
       <p><strong>Description:</strong></p>
-      <p>{{ book.description }}</p>
-      <button *ngIf="!inCart" class="btn btn-primary" (click)="addToCart(book)">
+      <p>{{ book?.description }}</p>
+      <button
+        *ngIf="!inCart"
+        class="btn btn-primary"
+        (click)="addToCart(book!)"
+      >
         Add to Cart
       </button>
-      <div *ngIf="inCart" class="btn-group" role="group">
-        <button class="btn btn-secondary" (click)="decrementCartQuantity()">
+      <div
+        *ngIf="inCart"
+        class="btn-group border border-secondary"
+        role="group"
+      >
+        <button class="btn btn-danger" (click)="decrementCartQuantity()">
           -
         </button>
-        <span class="btn btn-outline-secondary">{{ cartQuantity }}</span>
-        <button class="btn btn-secondary" (click)="incrementCartQuantity()">
+        <span class="btn align-self-center">
+          {{ cartQuantity }}
+        </span>
+        <button class="btn btn-success" (click)="incrementCartQuantity()">
           +
         </button>
       </div>
-      <!-- <i class="seoicon-commerce"></i>
-      <span class="semicircle"></span> -->
     </div>
   </div>
 </div>

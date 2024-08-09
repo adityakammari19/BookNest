@@ -29,6 +29,7 @@ public class Book {
 	
 	private String bookTitle;
 	private String author;
+	@Column(length = 1000)
 	private String description;
 	private String isbn;
 	private int pageCount;

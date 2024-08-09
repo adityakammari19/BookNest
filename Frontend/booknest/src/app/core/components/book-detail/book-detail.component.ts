@@ -15,7 +15,7 @@ import { CartItem } from '../../models/cart';
 })
 export class BookDetailComponent implements OnInit {
   bookId?: number;
-  book!: Book;
+  book?: Book;
   userId: number = 1;
   inCart = false;
   cartQuantity = 0;
@@ -50,13 +50,12 @@ export class BookDetailComponent implements OnInit {
     this.cartService.addToCart(this.userId, cartItem).subscribe(() => {
       this.inCart = true;
       this.cartQuantity = 1;
-      alert('Book added to cart');
     });
   }
 
   incrementCartQuantity(): void {
     this.cartService
-      .incrementCartQuantity(this.userId, this.book.bookId)
+      .incrementCartQuantity(this.userId, this.book!.bookId)
       .subscribe(() => {
         this.cartQuantity++;
       });
@@ -65,7 +64,7 @@ export class BookDetailComponent implements OnInit {
   decrementCartQuantity(): void {
     if (this.cartQuantity > 1) {
       this.cartService
-        .decrementCartQuantity(this.userId, this.book.bookId)
+        .decrementCartQuantity(this.userId, this.book!.bookId)
         .subscribe(() => {
           this.cartQuantity--;
         });

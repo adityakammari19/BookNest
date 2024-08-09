@@ -5,8 +5,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.cts.orderservice.dto.AddressDTO;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -37,13 +40,18 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems;
 
-    private double totalAmount;
+    @Column(name = "total_price", nullable = false)
+    private Double totalPrice;
     
-    public Order(Long userId, LocalDate orderDate, List<OrderItem> orderItems, double totalAmount) {
+    @Embedded
+    private AddressDTO address;
+    
+    public Order(Long userId, LocalDate orderDate, List<OrderItem> orderItems, Double totalPrice,AddressDTO address) {
         this.userId = userId;
         this.orderDate = orderDate;
         this.orderItems = orderItems;
-        this.totalAmount = totalAmount;
+        this.totalPrice = totalPrice;
+        this.address = address;
     }
 
 }

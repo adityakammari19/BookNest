@@ -36,7 +36,6 @@ export class BookCardComponent implements OnInit {
     this.cartService.addToCart(1, cartItem).subscribe(() => {
       this.inCart = true;
       this.cartQuantity = 1;
-      alert('Book added to cart');
     });
   }
 
@@ -59,7 +58,7 @@ export class BookCardComponent implements OnInit {
   }
 
   viewDetails(book: Book): void {
-    this.router.navigate(['/books', book.bookId]);
+    this.router.navigate(['/bookdetailed', book.bookId]);
   }
 
   getCoverImage(coverImage: string): string {

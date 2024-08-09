@@ -16,39 +16,58 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" routerLink="/">Home</a>
+            <a
+              class="nav-link"
+              routerLink="/"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              >Home</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/about">About Us</a>
+            <a class="nav-link" routerLink="/about" routerLinkActive="active"
+              >About Us</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/contact">Contact Us</a>
+            <a class="nav-link" routerLink="/contact" routerLinkActive="active"
+              >Contact Us</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/cart">View Cart</a>
+            <a class="nav-link" routerLink="/cart" routerLinkActive="active"
+              >View Cart</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/orders">Order History</a>
+            <a
+              class="nav-link"
+              routerLink="/orders-history"
+              routerLinkActive="active"
+              >Order History</a
+            >
           </li>
         </ul>
-        <form class="d-flex">
+        <form [formGroup]="searchForm" class="d-flex" (ngSubmit)="onSearch()">
           <input
             class="form-control me-2"
             type="search"
             placeholder="Search"
             aria-label="Search"
-            (keyup)="onSearch($event)"
+            formControlName="search"
           />
-          <button class="btn btn-outline-success" type="button">Search</button>
+          <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         <ul class="navbar-nav d-flex justify-content-end">
           <li class="nav-item">
-            <!-- {!isAuthenticated && <Link class="nav-link" to="/login">Login</Link>} -->
-            <a class="nav-link" routerLink="/login">Login</a>
+            <a class="nav-link" routerLink="/login" routerLinkActive="active"
+              >Login</a
+            >
           </li>
           <li class="nav-item">
-            <!-- {isAuthenticated && <Link class="nav-link" to="/logout" onClick={logout}>Logout</Link>} -->
-            <a class="nav-link" routerLink="/logout">Logout</a>
+            <a class="nav-link" routerLink="/logout" routerLinkActive="active"
+              >Logout</a
+            >
           </li>
         </ul>
       </div>

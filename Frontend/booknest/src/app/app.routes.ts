@@ -23,8 +23,9 @@ export const routes: Routes = [
       { path: 'contact', component: ContactComponent },
       { path: 'cart', component: CartComponent },
       { path: 'checkout', component: CheckoutComponent },
-      { path: 'orders', component: OrderHistoryComponent },
-      { path: 'books/:id', component: BookDetailComponent },
+      { path: 'orders-history', component: OrderHistoryComponent },
+      { path: 'bookdetailed/:id', component: BookDetailComponent },
+      { path: 'books', component: BookListComponent },
     ],
   },
 

@@ -1,52 +1,365 @@
-<div class="container mt-5">
-  <h2>My Cart</h2>
-  <div *ngIf="cart?.cartItems?.length">
-    <div
-      class="row"
-      style="background-color: rgb(210, 228, 228)"
-      *ngFor="let cartItem of cart?.cartItems"
+<!-- <div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center">
+    <h2>My Cart</h2>
+    <button
+      *ngIf="cart?.cartItems?.length"
+      class="btn btn-danger"
+      (click)="clearCart()"
     >
-      <div class="col-md-4" style="width: 150px; height: 200px">
-        <img
-          [src]="getCoverImage(cartItem.book.coverImage)"
-          class="card-img-top img-fluid img-responsive rounded mx-auto d-block"
-          alt="{{ cartItem.book.bookTitle }}"
-        />
-      </div>
-      <div class="col-md-8">
-        <h4>{{ cartItem.book.bookTitle }}</h4>
-        <p>Price: {{ cartItem.book.price | currency : "INR" }}</p>
-        <p>Quantity: {{ cartItem.quantity }}</p>
-
-        <div class="btn-group" role="group">
-          <button
-            class="btn btn-secondary"
-            (click)="decrementFromCart(cartItem.bookId)"
-          >
-            -
-          </button>
-          <span class="btn btn-outline-secondary">{{ cartItem.quantity }}</span>
-          <button
-            class="btn btn-secondary"
-            (click)="incrementFromCart(cartItem.bookId)"
-          >
-            +
-          </button>
-        </div>
-        <button
-          class="btn btn-danger m-2"
-          (click)="removeCartItemFromCart(cartItem.bookId)"
+      Clear Cart
+    </button>
+  </div>
+  <div *ngIf="cart?.cartItems?.length">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      <div class="col" *ngFor="let cartItem of cart?.cartItems">
+        <div
+          class="card h-100"
+          style="background-color: rgb(210, 228, 228)"
+          (click)="viewDetails(cartItem.book.bookId)"
         >
-          remove
-        </button>
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img
+                [src]="getCoverImage(cartItem.book.coverImage)"
+                class="card-img-top img-fluid img-responsive rounded mx-auto d-block"
+                alt="{{ cartItem.book.bookTitle }}"
+                style="width: 150px; height: 200px"
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h4 class="card-title">{{ cartItem.book.bookTitle }}</h4>
+                <p class="card-text">
+                  <i>{{ cartItem.book.author }}</i>
+                </p>
+                <p class="card-text">
+                  Price: {{ cartItem.book.price | currency : "INR" }}
+                </p>
+                <div class="d-flex justify-content-around">
+                  <div class="btn-group border border-secondary" role="group">
+                    <button
+                      class="btn btn-danger"
+                      (click)="
+                        decrementFromCart(cartItem.bookId);
+                        $event.stopPropagation()
+                      "
+                    >
+                      -
+                    </button>
+                    <span class="btn align-self-center">
+                      {{ cartItem.quantity }}
+                    </span>
+                    <button
+                      class="btn btn-success"
+                      (click)="
+                        incrementFromCart(cartItem.bookId);
+                        $event.stopPropagation()
+                      "
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <button
+                    class="btn btn-danger m-2"
+                    (click)="
+                      removeCartItemFromCart(cartItem.bookId);
+                      $event.stopPropagation()
+                    "
+                  >
+                    remove
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
     <div class="mt-3">
-      <!-- <h3>Total: {{ cart.totalAmount | currency }}</h3> -->
-      <button class="btn btn-danger" (click)="clearCart()">Clear Cart</button>
+      <h4>Total Price: {{ totalPrice | currency : "INR" }}</h4>
     </div>
+    <div [formGroup]="addressForm" class="form-group" class="w-50">
+      <label for="address">Select Address</label>
+      <select
+        class="form-control"
+        id="address"
+        formControlName="selectedAddress"
+      >
+        <option *ngFor="let address of addresses" [ngValue]="address">
+          {{ address.houseNumber }}, {{ address.street }}, {{ address.city }},
+          {{ address.state }}, {{ address.zip }}, {{ address.country }}
+        </option>
+      </select>
+    </div>
+    <button class="btn btn-secondary mt-2" (click)="toggleAddNewAddressForm()">
+      Add New Address
+    </button>
+    <div
+      *ngIf="showAddNewAddressForm"
+      class="d-flex justify-content-center align-items-center vh-100 mt-3"
+    >
+      <form
+        [formGroup]="newAddressForm"
+        (ngSubmit)="addNewAddress()"
+        class="w-50"
+      >
+        <h5 class="text-center mb-3">Add New Address</h5>
+        <div class="form-group">
+          <label for="houseNumber">House No:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="houseNumber"
+            formControlName="houseNumber"
+          />
+        </div>
+        <div class="form-group">
+          <label for="street">Street</label>
+          <input
+            type="text"
+            class="form-control"
+            id="street"
+            formControlName="street"
+          />
+        </div>
+        <div class="form-group">
+          <label for="city">City</label>
+          <input
+            type="text"
+            class="form-control"
+            id="city"
+            formControlName="city"
+          />
+        </div>
+        <div class="form-group">
+          <label for="state">State</label>
+          <input
+            type="text"
+            class="form-control"
+            id="state"
+            formControlName="state"
+          />
+        </div>
+        <div class="form-group">
+          <label for="zip">Zip</label>
+          <input
+            type="text"
+            class="form-control"
+            id="zip"
+            formControlName="zip"
+          />
+        </div>
+        <div class="form-group">
+          <label for="country">Country</label>
+          <input
+            type="text"
+            class="form-control"
+            id="country"
+            formControlName="country"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Add Address</button>
+      </form>
+    </div>
+    <button class="btn btn-primary mt-3" (click)="placeOrder()">
+      Place Order
+    </button>
   </div>
   <div *ngIf="!cart?.cartItems?.length">
     <p>Your cart is empty</p>
+  </div>
+</div> -->
+<app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+<div *ngIf="!isLoading">
+  <div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>My Cart</h2>
+      <button
+        *ngIf="cart?.cartItems?.length"
+        class="btn btn-danger"
+        (click)="clearCart()"
+      >
+        Clear Cart
+      </button>
+    </div>
+    <div *ngIf="cart?.cartItems?.length">
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col" *ngFor="let cartItem of cart?.cartItems">
+          <div
+            class="card h-100"
+            style="background-color: rgb(210, 228, 228)"
+            (click)="viewDetails(cartItem.book.bookId)"
+          >
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img
+                  [src]="getCoverImage(cartItem.book.coverImage)"
+                  class="card-img-top img-fluid img-responsive rounded mx-auto d-block"
+                  alt="{{ cartItem.book.bookTitle }}"
+                  style="width: 150px; height: 200px"
+                />
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h4 class="card-title">{{ cartItem.book.bookTitle }}</h4>
+                  <p class="card-text">
+                    by <i>{{ cartItem.book.author }}</i>
+                  </p>
+                  <p class="card-text">
+                    Price: {{ cartItem.book.price | currency : "INR" }}
+                  </p>
+                  <div class="d-flex justify-content-around">
+                    <div class="btn-group border border-secondary" role="group">
+                      <button
+                        class="btn btn-danger"
+                        (click)="
+                          decrementFromCart(cartItem.bookId);
+                          $event.stopPropagation()
+                        "
+                      >
+                        -
+                      </button>
+                      <span class="btn align-self-center">
+                        {{ cartItem.quantity }}
+                      </span>
+                      <button
+                        class="btn btn-success"
+                        (click)="
+                          incrementFromCart(cartItem.bookId);
+                          $event.stopPropagation()
+                        "
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    <button
+                      class="btn btn-danger m-2"
+                      (click)="
+                        removeCartItemFromCart(cartItem.bookId);
+                        $event.stopPropagation()
+                      "
+                    >
+                      remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <h4>Total Price: {{ totalPrice | currency : "INR" }}</h4>
+      </div>
+      <div [formGroup]="addressForm" class="form-group" class="w-50">
+        <label for="address">Select Address</label>
+        <select
+          class="form-control"
+          id="address"
+          formControlName="selectedAddress"
+        >
+          <option *ngFor="let address of addresses" [ngValue]="address">
+            {{ address.houseNumber }}, {{ address.street }}, {{ address.city }},
+            {{ address.state }}, {{ address.zip }}, {{ address.country }}
+          </option>
+        </select>
+      </div>
+      <!-- Add New Address Button -->
+      <button
+        class="btn btn-secondary mt-2"
+        data-bs-toggle="modal"
+        data-bs-target="#addNewAddressModal"
+      >
+        Add New Address
+      </button>
+
+      <!-- Add New Address Modal -->
+      <div class="modal fade" id="addNewAddressModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add New Address</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form [formGroup]="newAddressForm" (ngSubmit)="addNewAddress()">
+                <!-- ...existing form fields... -->
+                <div class="form-group">
+                  <label for="houseNumber">House No:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="houseNumber"
+                    formControlName="houseNumber"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="street">Street</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="street"
+                    formControlName="street"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="city"
+                    formControlName="city"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="state">State</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="state"
+                    formControlName="state"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="zip">Zip</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="zip"
+                    formControlName="zip"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="country">Country</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="country"
+                    formControlName="country"
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">
+                  Add Address
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary mt-3" (click)="placeOrder()">
+        Place Order
+      </button>
+    </div>
+    <div *ngIf="!cart?.cartItems?.length">
+      <p>Your cart is empty</p>
+    </div>
   </div>
 </div>
