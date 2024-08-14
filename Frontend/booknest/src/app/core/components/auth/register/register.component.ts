@@ -30,7 +30,7 @@ export class RegisterComponent implements OnInit {
       password: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      phone: ['', Validators.required],
+      phoneNumber: ['', Validators.required],
     });
   }
 
@@ -38,14 +38,25 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     if (this.registerForm.valid) {
-      this.authService.register(this.registerForm.value).subscribe(
-        (response) => {
-          this.router.navigate(['/login']);
-        },
-        (error) => {
-          alert('Registration failed');
-        }
-      );
+      const { username, email, password, firstName, lastName, phoneNumber } =
+        this.registerForm.value;
+      this.authService
+        .register({
+          username,
+          email,
+          password,
+          firstName,
+          lastName,
+          phoneNumber,
+        })
+        .subscribe(
+          (response) => {
+            this.router.navigate(['/login']);
+          },
+          (error) => {
+            alert('Registration failed');
+          }
+        );
     }
   }
 }

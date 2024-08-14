@@ -13,6 +13,7 @@ import { AboutComponent } from './core/components/about/about.component';
 import { ContactComponent } from './core/components/contact/contact.component';
 import { HomeComponent } from './core/components/home/home.component';
 import { OrderHistoryComponent } from './core/components/order-history/order-history.component';
+import { AuthGuard } from './core/security/auth.guard';
 
 export const routes: Routes = [
   {
@@ -27,6 +28,7 @@ export const routes: Routes = [
       { path: 'bookdetailed/:id', component: BookDetailComponent },
       { path: 'books', component: BookListComponent },
     ],
+    canActivate: [AuthGuard],
   },
 
   { path: 'login', component: LoginComponent },

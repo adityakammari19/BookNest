@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -12,8 +13,9 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class HeaderComponent {
   searchForm: FormGroup;
+  isLoggedIn: boolean = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, public authService: AuthService) {
     this.searchForm = new FormGroup({
       search: new FormControl(''),
     });
@@ -24,5 +26,9 @@ export class HeaderComponent {
     if (keyword) {
       this.router.navigate(['/books'], { queryParams: { search: keyword } });
     }
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 }

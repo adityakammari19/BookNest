@@ -37,15 +37,7 @@ export class LoginComponent {
   onSubmit(): void {
     if (this.loginForm.valid) {
       const { username, password } = this.loginForm.value;
-      this.authService.login({ username, password }).subscribe(
-        (response) => {
-          // this.authService.saveToken(response.token);
-          this.router.navigate(['/']);
-        },
-        (error) => {
-          this.errorMessage = 'Invalid username or password';
-        }
-      );
+      this.authService.login({ username, password });
     }
   }
 }

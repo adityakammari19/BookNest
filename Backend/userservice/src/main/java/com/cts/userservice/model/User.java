@@ -36,23 +36,13 @@ public class User {
 
     @Column(name = "last_name")
     private String lastName;
-
-    @Column(name = "city")
-    private String city;
-
-    @Column(name = "state")
-    private String state;
-
-    @Column(name = "zip")
-    private String zip;
-
-    private String phone;
-
-    @Column(name = "country")
-    private String country;
-
-    @Column(name = "address")
-    private String address;
+    
+    @Column(name = "phone_number")
+    private String phoneNumber;
+    
+    @Column(name = "roles")
+    private String roles;
+    
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")

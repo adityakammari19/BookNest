@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: http://localhost:4200
+            allowedMethods: GET, POST, PUT, DELETE, OPTIONS
+            allowedHeaders: '*'
+            allowCredentials: true
+
+
+
+      routes:
+        - id: BOOK-SERVICE
+          uri: lb://BOOK-SERVICE
+          predicates:
+            - Path=/api/books/**
+          filters:
+            - AuthenticationFilter
+
+        - id: CART-SERVICE
+          uri: lb://CART-SERVICE
+          predicates:
+            - Path=/api/cart/**
+          filters:
+            - AuthenticationFilter
+
+        - id: ORDER-SERVICE
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/api/orders/**
+          filters:
+            - AuthenticationFilter
+
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/auth/**
+            - Path=/api/users/**
+         
+
+ 

@@ -3,8 +3,11 @@ package com.cts.userservice.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.cts.userservice.dto.RegisterRequest;
 import com.cts.userservice.exception.UserConflictException;
 import com.cts.userservice.exception.UserNotFoundException;
 import com.cts.userservice.model.Address;
@@ -18,7 +21,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService{
 
+	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+    private  PasswordEncoder passwordEncoder; 
 	
 	@Override
 	public List<User> getAllUsers() {
@@ -41,11 +48,18 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User createUser(User user) throws UserConflictException {
-//		 user.setPassword(passwordEncoder.encode(user.getPassword()));
-		if (getUserByUsername(user.getUsername()) != null) {
-			throw new UserConflictException("User already exists with username " + user.getUsername());
+	public User createUser(RegisterRequest newUser) throws UserConflictException {
+		User user = new User();
+		if (getUserByUsername(newUser.getUsername()) != null) {
+			throw new UserConflictException("User already exists with username " + newUser.getUsername());
 			}
+		user.setUsername(newUser.getUsername());
+        user.setEmail(newUser.getEmail());
+        user.setFirstName(newUser.getFirstName());
+        user.setLastName(newUser.getLastName());
+        user.setPhoneNumber(newUser.getPhoneNumber());
+        user.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        user.setRoles("ROLE_ADMIN");
 			return userRepository.save(user);
 	}
 
@@ -56,12 +70,7 @@ public class UserServiceImpl implements UserService{
             user.setEmail(updatedUser.getEmail());
             user.setFirstName(updatedUser.getFirstName());
             user.setLastName(updatedUser.getLastName());
-            user.setCity(updatedUser.getCity());
-            user.setState(updatedUser.getState());
-            user.setZip(updatedUser.getZip());
-            user.setPhone(updatedUser.getPhone());
-            user.setCountry(updatedUser.getCountry());
-            user.setAddress(updatedUser.getAddress());
+            user.setPhoneNumber(updatedUser.getPhoneNumber());
             if (!updatedUser.getPassword().isEmpty()) {
                 user.setPassword(updatedUser.getPassword());
 //                user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
