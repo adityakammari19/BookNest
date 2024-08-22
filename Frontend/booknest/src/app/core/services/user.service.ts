@@ -11,8 +11,17 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
+  getUserIdfromLocalStorage(): number {
+    const storedUserId = localStorage.getItem('userId');
+    return Number(storedUserId);
+  }
+
   getUserById(userId: number): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/${userId}`);
+  }
+
+  getUserByUsername(username: string): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/username/${username}`);
   }
 
   getUserAddresses(userId: number): Observable<any[]> {
@@ -24,5 +33,9 @@ export class UserService {
       `${this.baseUrl}/user/${userId}/addresses`,
       address
     );
+  }
+
+  updateUser(userId: number, updatedUser: any): Observable<User> {
+    return this.http.put<User>(`${this.baseUrl}/${userId}`, updatedUser);
   }
 }

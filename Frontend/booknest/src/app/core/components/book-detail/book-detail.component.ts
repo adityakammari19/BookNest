@@ -5,6 +5,7 @@ import { CartService } from '../../services/cart.service';
 import { ActivatedRoute } from '@angular/router';
 import { CurrencyPipe, NgIf } from '@angular/common';
 import { CartItem } from '../../models/cart';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-book-detail',
@@ -16,13 +17,15 @@ import { CartItem } from '../../models/cart';
 export class BookDetailComponent implements OnInit {
   bookId?: number;
   book?: Book;
-  userId: number = 1;
+  // userId: number;
+  userId: number = this.userService.getUserIdfromLocalStorage();
   inCart = false;
   cartQuantity = 0;
 
   constructor(
     private route: ActivatedRoute,
     private bookService: BookService,
+    private userService: UserService,
     private cartService: CartService
   ) {}
 

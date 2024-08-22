@@ -12,6 +12,7 @@ import { CategorySidebarComponent } from '../category-sidebar/category-sidebar.c
 import { NgIf } from '@angular/common';
 import { BookService } from '../../services/book.service';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -35,7 +36,8 @@ export class HomeComponent implements OnInit {
   constructor(
     public router: Router,
     private route: ActivatedRoute,
-    private bookService: BookService
+    private bookService: BookService,
+    private authService: AuthService
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -47,6 +49,18 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const currentUser = this.authService.currentUserValue;
+
+    if (currentUser) {
+      if (currentUser.role === 'ROLE_ADMIN') {
+        this.router.navigate(['/admin/dashboard']);
+      } else if (currentUser.role === 'ROLE_USER') {
+        this.router.navigate(['/user']);
+      }
+    } else {
+      this.router.navigate(['/login']);
+    }
+
     this.route.queryParams.subscribe((params) => {
       const category = params['category'];
       if (category) {

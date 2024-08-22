@@ -29,8 +29,7 @@ public class Cart {
 	
 	private Long userId;
 	
-//	@ElementCollection
-//	private List<Long> cartItemId;
+
 	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<CartItem> cartItems = new ArrayList<>();
 	

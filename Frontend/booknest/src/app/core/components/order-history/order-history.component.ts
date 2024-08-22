@@ -4,6 +4,7 @@ import { CurrencyPipe, DatePipe, NgFor, NgIf } from '@angular/common';
 import { BookService } from '../../services/book.service';
 import { OrderItem } from '../../models/order';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-order-history',
@@ -13,12 +14,13 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
   styleUrl: './order-history.component.css',
 })
 export class OrderHistoryComponent implements OnInit {
-  userId: number = 1; // Placeholder for logged-in user ID
+  userId: number = this.userService.getUserIdfromLocalStorage();
   orders?: any[] = [];
   isLoading = false;
 
   constructor(
     private orderService: OrderService,
+    private userService: UserService,
     private bookService: BookService
   ) {}
 

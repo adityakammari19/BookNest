@@ -30,7 +30,8 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
 })
 export class CartComponent implements OnInit {
   cart?: Cart;
-  userId: number = 1;
+  // userId: number = 1;
+
   totalPrice: number = 0;
   addresses: any[] = [];
   selectedAddress: string = '';
@@ -41,7 +42,6 @@ export class CartComponent implements OnInit {
 
   constructor(
     private cartService: CartService,
-    private authService: AuthService,
     private orderService: OrderService,
     private userService: UserService,
     private router: Router,
@@ -60,12 +60,9 @@ export class CartComponent implements OnInit {
       country: ['', Validators.required],
     });
   }
+  userId: number = this.userService.getUserIdfromLocalStorage();
 
   ngOnInit(): void {
-    // const userId = this.authService.getToken(); // assuming the token is the userId for simplicity
-    // if (userId) {
-    //   this.loadCart(userId);
-    // }
     this.loadCart(this.userId);
     this.loadUserAddresses(this.userId);
   }

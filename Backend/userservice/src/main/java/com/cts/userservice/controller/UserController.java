@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cts.userservice.dto.UpdateUserRequest;
 import com.cts.userservice.model.Address;
 import com.cts.userservice.model.User;
 import com.cts.userservice.service.UserService;
@@ -54,7 +55,7 @@ public class UserController {
 //    }
     
     @PutMapping("/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody UpdateUserRequest user) {
         return ResponseEntity.ok(userService.updateUser(userId, user));
     }
 

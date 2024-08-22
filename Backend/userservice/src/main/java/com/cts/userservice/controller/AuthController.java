@@ -32,6 +32,11 @@ public class AuthController {
     public User registerUser(@RequestBody RegisterRequest registerRequest) throws UserConflictException {
         return userService.createUser(registerRequest);
     }
+    
+    @PostMapping("/admin/register")
+    public User registerAdminUser(@RequestBody RegisterRequest registerRequest) throws UserConflictException {
+        return userService.createAdminUser(registerRequest);
+    }
  
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {

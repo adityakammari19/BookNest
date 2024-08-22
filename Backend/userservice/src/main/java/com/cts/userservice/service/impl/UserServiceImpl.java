@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.cts.userservice.dto.RegisterRequest;
+import com.cts.userservice.dto.UpdateUserRequest;
 import com.cts.userservice.exception.UserConflictException;
 import com.cts.userservice.exception.UserNotFoundException;
 import com.cts.userservice.model.Address;
@@ -59,22 +60,33 @@ public class UserServiceImpl implements UserService{
         user.setLastName(newUser.getLastName());
         user.setPhoneNumber(newUser.getPhoneNumber());
         user.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        user.setRoles("ROLE_USER");
+			return userRepository.save(user);
+	}
+	
+	@Override
+	public User createAdminUser(RegisterRequest newUser) throws UserConflictException {
+		User user = new User();
+		if (getUserByUsername(newUser.getUsername()) != null) {
+			throw new UserConflictException("User already exists with username " + newUser.getUsername());
+			}
+		user.setUsername(newUser.getUsername());
+        user.setEmail(newUser.getEmail());
+        user.setFirstName(newUser.getFirstName());
+        user.setLastName(newUser.getLastName());
+        user.setPhoneNumber(newUser.getPhoneNumber());
+        user.setPassword(passwordEncoder.encode(newUser.getPassword()));
         user.setRoles("ROLE_ADMIN");
 			return userRepository.save(user);
 	}
 
 	@Override
-	public User updateUser(Long userId, User updatedUser) {
+	public User updateUser(Long userId, UpdateUserRequest updatedUser) {
 		return userRepository.findById(userId).map(user -> {
-            user.setUsername(updatedUser.getUsername());
             user.setEmail(updatedUser.getEmail());
             user.setFirstName(updatedUser.getFirstName());
             user.setLastName(updatedUser.getLastName());
             user.setPhoneNumber(updatedUser.getPhoneNumber());
-            if (!updatedUser.getPassword().isEmpty()) {
-                user.setPassword(updatedUser.getPassword());
-//                user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
-            }
             return userRepository.save(user);
         }).orElseThrow(() -> new UserNotFoundException("User not found with id " + userId));
 	}

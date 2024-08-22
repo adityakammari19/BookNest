@@ -14,6 +14,9 @@ import { ContactComponent } from './core/components/contact/contact.component';
 import { HomeComponent } from './core/components/home/home.component';
 import { OrderHistoryComponent } from './core/components/order-history/order-history.component';
 import { AuthGuard } from './core/security/auth.guard';
+import { RoleGuard } from './core/security/role.guard';
+import { AdminRegisterComponent } from './core/components/admin/admin-register/admin-register.component';
+import { ProfileComponent } from './core/components/profile/profile.component';
 
 export const routes: Routes = [
   {
@@ -27,13 +30,33 @@ export const routes: Routes = [
       { path: 'orders-history', component: OrderHistoryComponent },
       { path: 'bookdetailed/:id', component: BookDetailComponent },
       { path: 'books', component: BookListComponent },
+      { path: 'profile', component: ProfileComponent },
     ],
     canActivate: [AuthGuard],
   },
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'admin', component: DashboardComponent },
-  { path: 'admin/add-book', component: AddBookComponent },
-  { path: 'admin/manage-books', component: ManageBookComponent },
+  { path: 'admin/register', component: AdminRegisterComponent },
+  {
+    path: 'admin/dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['ROLE_ADMIN'] },
+  },
+  {
+    path: 'admin/add-book',
+    component: AddBookComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin/edit-profile',
+    component: ProfileComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin/manage-book/:id',
+    component: ManageBookComponent,
+    canActivate: [AuthGuard],
+  },
 ];

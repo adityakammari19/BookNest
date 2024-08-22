@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cts.bookservice.dto.UpdateBookDTO;
 import com.cts.bookservice.exception.ConflictException;
 import com.cts.bookservice.model.Book;
 
@@ -18,6 +19,7 @@ public interface BookService {
 	public void deleteBook(Long id);
 	 public List<String> getUniqueCategories();
 	 public List<Book> searchBooksByTitleOrAuthor(String keyword);
+	public Book updateBook(Long bookId, UpdateBookDTO book);
 	
 	
 

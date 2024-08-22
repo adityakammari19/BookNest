@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cts.bookservice.dto.UpdateBookDTO;
 import com.cts.bookservice.exception.BookNotFoundException;
 import com.cts.bookservice.exception.ConflictException;
 import com.cts.bookservice.model.Book;
@@ -98,6 +99,19 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public List<Book> searchBooksByTitleOrAuthor(String keyword) {
 		return bookRepository.searchByBookTitleOrAuthor(keyword);
+	}
+
+	@Override
+	public Book updateBook(Long bookId, UpdateBookDTO updatedBook) {
+		return bookRepository.findById(bookId).map(book-> {
+			book.setAuthor(updatedBook.getAuthor());
+			book.setBookTitle(updatedBook.getBookTitle());
+			book.setDescription(updatedBook.getDescription());
+			book.setPageCount(updatedBook.getPageCount());
+			book.setPrice(updatedBook.getPrice());
+			return bookRepository.save(book);
+		}).orElseThrow(()-> new BookNotFoundException("Book not found with id:"+ bookId));
+		
 	}
 
 }

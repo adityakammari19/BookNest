@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth.service';
 const EXCLUDED_URLS = [
   'http://localhost:8765/api/auth/login',
   'http://localhost:8765/api/auth/register',
+  'http://localhost:8765/api/auth/admin/register',
 ];
 
 export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
@@ -14,7 +15,7 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
   }
 
-  const currentUser = authService.currentUserValue;
+  const currentUser = authService.currentUserValue.token;
 
   if (currentUser) {
     req = req.clone({

@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cts.bookservice.dto.UpdateBookDTO;
 import com.cts.bookservice.exception.ConflictException;
 import com.cts.bookservice.model.Book;
 import com.cts.bookservice.service.BookService;
@@ -65,6 +68,11 @@ public class BookController {
 	public ResponseEntity<String> deleteBookWithId(@PathVariable Long bookId) {
 		bookService.deleteBook(bookId);
 		return new ResponseEntity<>("Successfully Deleted book with id:"+bookId,HttpStatus.OK);
+		
+	}
+	@PutMapping("/book/{bookId}")
+	public ResponseEntity<Book> updateBookWithId(@PathVariable Long bookId, @RequestBody UpdateBookDTO book) {
+		return  ResponseEntity.ok(bookService.updateBook(bookId,book));
 		
 	}
 	

@@ -4,6 +4,7 @@ import { CartService } from '../../services/cart.service';
 import { Router } from '@angular/router';
 import { CurrencyPipe, NgIf } from '@angular/common';
 import { CartItem } from '../../models/cart';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-book-card',
@@ -14,11 +15,17 @@ import { CartItem } from '../../models/cart';
 })
 export class BookCardComponent implements OnInit {
   @Input() book!: Book;
-  userId: number = 1;
+  // userId: number = 1;
   inCart = false;
   cartQuantity = 0;
 
-  constructor(private cartService: CartService, private router: Router) {}
+  constructor(
+    private cartService: CartService,
+    private userService: UserService,
+    private router: Router
+  ) {}
+
+  userId: number = this.userService.getUserIdfromLocalStorage();
 
   ngOnInit(): void {
     this.cartService
@@ -33,7 +40,7 @@ export class BookCardComponent implements OnInit {
 
   addToCart(book: Book): void {
     const cartItem: CartItem = { bookId: book.bookId, quantity: 1 };
-    this.cartService.addToCart(1, cartItem).subscribe(() => {
+    this.cartService.addToCart(this.userId, cartItem).subscribe(() => {
       this.inCart = true;
       this.cartQuantity = 1;
     });

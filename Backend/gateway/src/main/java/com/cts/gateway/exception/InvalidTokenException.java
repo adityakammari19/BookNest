@@ -2,7 +2,7 @@ package com.cts.gateway.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class InvalidTokenException extends Exception {
+public class InvalidTokenException extends RuntimeException {
 
 	private HttpStatus status;
 	private String message;
