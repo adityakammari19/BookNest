@@ -34,10 +34,25 @@ export class LoginComponent {
     });
   }
 
+  // onSubmit(): void {
+  //   if (this.loginForm.valid) {
+  //     const { username, password } = this.loginForm.value;
+  //     this.authService.login({ username, password });
+  //   }
+  // }
   onSubmit(): void {
     if (this.loginForm.valid) {
       const { username, password } = this.loginForm.value;
-      this.authService.login({ username, password });
+      this.authService.login({ username, password }).subscribe(
+        () => {
+          // Handle successful login
+        },
+        (error) => {
+          console.error('Login failed:', error);
+          this.errorMessage =
+            'Login failed. Please check your credentials and try again.';
+        }
+      );
     }
   }
 }

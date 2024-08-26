@@ -8,17 +8,19 @@ import {
 import { BookService } from '../../../services/book.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AdminHeaderComponent } from '../admin-header/admin-header.component';
 
 @Component({
   selector: 'app-add-book',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, AdminHeaderComponent],
   templateUrl: './add-book.component.html',
   styleUrl: './add-book.component.css',
 })
 export class AddBookComponent implements OnInit {
   bookForm: FormGroup;
   selectedFile: File | null = null;
+  errorMessage: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -28,10 +30,10 @@ export class AddBookComponent implements OnInit {
     this.bookForm = this.fb.group({
       bookTitle: ['', Validators.required],
       author: ['', Validators.required],
-      price: ['', Validators.required],
-      pageCount: ['', Validators.required],
+      price: ['', [Validators.required, Validators.min(1)]],
+      pageCount: ['', [Validators.required, Validators.min(1)]],
       isbn: ['', Validators.required],
-      description: [''],
+      description: ['', Validators.required],
       categories: ['', Validators.required],
       coverImage: [''],
     });
@@ -70,9 +72,18 @@ export class AddBookComponent implements OnInit {
         );
       }
 
-      this.bookService.addBook(formData).subscribe(() => {
-        this.router.navigate(['/']);
-      });
+      this.bookService.addBook(formData).subscribe(
+        () => {
+          this.router.navigate(['/']);
+        },
+        (error) => {
+          if (error.status === 409) {
+            this.errorMessage = 'Book already exists';
+          } else {
+            this.errorMessage = 'An error occurred. Please try again.';
+          }
+        }
+      );
     }
   }
 }

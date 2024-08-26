@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Cart } from '../../models/cart';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
+
 import {
   FormBuilder,
   FormGroup,
@@ -105,7 +106,6 @@ export class CartComponent implements OnInit {
   clearCart(): any {
     // const userId = this.authService.getToken();
     this.cartService.clearCart(this.userId).subscribe((msg) => {
-      console.log(msg);
       alert(msg.message);
       this.loadCart(this.userId);
     });

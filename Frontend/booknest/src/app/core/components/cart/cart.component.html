@@ -268,14 +268,6 @@
           </option>
         </select>
       </div>
-      <!-- Add New Address Button -->
-      <button
-        class="btn btn-secondary mt-2"
-        data-bs-toggle="modal"
-        data-bs-target="#addNewAddressModal"
-      >
-        Add New Address
-      </button>
 
       <!-- Add New Address Modal -->
       <div class="modal fade" id="addNewAddressModal" tabindex="-1">
@@ -354,9 +346,18 @@
           </div>
         </div>
       </div>
-      <button class="btn btn-primary mt-3" (click)="placeOrder()">
-        Place Order
-      </button>
+      <div class="d-flex justify-content-between mt-3">
+        <button
+          class="btn btn-secondary"
+          data-bs-toggle="modal"
+          data-bs-target="#addNewAddressModal"
+        >
+          Add New Address
+        </button>
+        <button class="btn btn-primary" (click)="placeOrder()">
+          Place Order
+        </button>
+      </div>
     </div>
     <div *ngIf="!cart?.cartItems?.length">
       <p>Your cart is empty</p>

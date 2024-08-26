@@ -59,9 +59,12 @@ public class BookController {
             @RequestParam("pageCount") int pageCount,
             @RequestParam(value = "coverImage") MultipartFile coverImage) throws ConflictException {
 		
-			Book savedBook = bookService.addBook(bookTitle,description,author,categories,isbn,pageCount,price,coverImage);
-		
-		return new ResponseEntity<>(savedBook,HttpStatus.CREATED);
+		try {
+	        Book savedBook = bookService.addBook(bookTitle, description, author, categories, isbn, pageCount, price, coverImage);
+	        return new ResponseEntity<>(savedBook, HttpStatus.CREATED);
+	    } catch (ConflictException e) {
+	        return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+	    }
 	}
 	
 	@DeleteMapping("/book/{bookId}")

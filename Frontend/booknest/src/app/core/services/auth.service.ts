@@ -70,7 +70,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserService } from './user.service'; // Import UserService
 import { CartService } from './cart.service';
@@ -99,19 +99,16 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  login(credentials: { username: string; password: string }) {
-    return this.http.post(`${this.apiUrl}/login`, credentials).subscribe(
-      (response: any) => {
+  login(credentials: { username: string; password: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
+      tap((response: any) => {
         if (response && response.accessToken) {
           const token = response.accessToken;
-          // localStorage.setItem('currentUser', token);
-          // console.log(token);
-
           // Extract username from token payload
           const decodedToken = this.jwtHelper.decodeToken(token);
           const username = decodedToken.sub;
           const role = decodedToken.role;
-          console.log(username, role);
+
           const currentUser = { token, username, role };
           localStorage.setItem('currentUser', JSON.stringify(currentUser));
           this.currentUserSubject.next(currentUser);
@@ -131,11 +128,7 @@ export class AuthService {
             });
           });
         }
-      },
-      (error) => {
-        console.error('Login failed:', error);
-        // Handle the error (e.g., display a message to the user)
-      }
+      })
     );
   }
 

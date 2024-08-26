@@ -15,6 +15,7 @@
 .navbar-nav .nav-link:hover, .nav-link:active, .nav-link.active {
   color: #00ff00; /* Change this to your desired color */
   text-decoration: underline; /* Optional: Adds an underline */
+  cursor: pointer;
 }
 
 /* Card styling */

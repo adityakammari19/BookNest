@@ -1,0 +1,23 @@
+.img-thumbnail {
+    width: 150px; /* Adjust width as needed */
+    height: 200px; /* Adjust height as needed */
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+  }
+  /* Center the form and set its width */
+.container {
+    display: flex;
+  flex-direction: column; /* Arrange children vertically */
+  align-items: center;
+  }
+  
+  form {
+    width: 50%; /* Adjust the width as needed */
+  }
+  
+  /* Align buttons at each end */
+  .form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  

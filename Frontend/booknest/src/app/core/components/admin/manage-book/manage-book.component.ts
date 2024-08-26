@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BookService } from '../../../services/book.service';
 import { CommonModule, CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { LoadingSpinnerComponent } from '../../../../shared/components/loading-spinner/loading-spinner.component';
+import { AdminHeaderComponent } from '../admin-header/admin-header.component';
 
 @Component({
   selector: 'app-manage-book',
@@ -20,6 +21,7 @@ import { LoadingSpinnerComponent } from '../../../../shared/components/loading-s
     CommonModule,
     ReactiveFormsModule,
     LoadingSpinnerComponent,
+    AdminHeaderComponent,
   ],
   templateUrl: './manage-book.component.html',
   styleUrl: './manage-book.component.css',

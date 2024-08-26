@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
+  errorMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -25,12 +26,15 @@ export class RegisterComponent implements OnInit {
     private router: Router
   ) {
     this.registerForm = this.fb.group({
-      username: ['', Validators.required],
+      username: ['', [Validators.required, Validators.minLength(5)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      firstName: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(4)]],
+      firstName: ['', [Validators.required, Validators.minLength(5)]],
       lastName: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
+      phoneNumber: [
+        '',
+        [Validators.required, Validators.pattern('^[1-9][0-9]{9}$')],
+      ],
     });
   }
 
@@ -54,7 +58,12 @@ export class RegisterComponent implements OnInit {
             this.router.navigate(['/login']);
           },
           (error) => {
-            alert('Registration failed');
+            console.error('Registration failed:', error);
+            if (error.status === 409) {
+              this.errorMessage = 'Username or email already exists.';
+            } else {
+              this.errorMessage = 'Registration failed. Please try again.';
+            }
           }
         );
     }

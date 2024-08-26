@@ -23,6 +23,5 @@ export class CategorySidebarComponent implements OnInit {
 
   selectCategory(category: string): void {
     this.categorySelected.emit(category);
-    // console.log(category);
   }
 }

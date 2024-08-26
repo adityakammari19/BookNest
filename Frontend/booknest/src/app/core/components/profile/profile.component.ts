@@ -10,11 +10,18 @@ import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { CommonModule, NgIf } from '@angular/common';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
+import { AdminHeaderComponent } from '../admin/admin-header/admin-header.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [NgIf, CommonModule, ReactiveFormsModule, LoadingSpinnerComponent],
+  imports: [
+    NgIf,
+    CommonModule,
+    ReactiveFormsModule,
+    LoadingSpinnerComponent,
+    AdminHeaderComponent,
+  ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
@@ -85,5 +92,9 @@ export class ProfileComponent {
     this.isEditing = false;
     this.profileForm.patchValue(this.currentUser);
     this.profileForm.disable();
+  }
+
+  get isAdmin(): boolean {
+    return this.currentUser.role === 'ROLE_ADMIN';
   }
 }

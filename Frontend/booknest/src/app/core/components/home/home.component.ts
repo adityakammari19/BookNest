@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
       if (currentUser.role === 'ROLE_ADMIN') {
         this.router.navigate(['/admin/dashboard']);
       } else if (currentUser.role === 'ROLE_USER') {
-        this.router.navigate(['/user']);
+        this.router.navigate(['/']);
       }
     } else {
       this.router.navigate(['/login']);

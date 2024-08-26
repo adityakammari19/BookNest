@@ -1,7 +1,9 @@
 package com.cts.userservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,36 +31,39 @@ public class AuthController {
 	private AuthService authService;
  
     @PostMapping("/register")
-    public User registerUser(@RequestBody RegisterRequest registerRequest) throws UserConflictException {
-        return userService.createUser(registerRequest);
+    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) throws UserConflictException {
+    	try {
+            User user = userService.createUser(registerRequest);
+            return ResponseEntity.ok(user);
+        } catch (UserConflictException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
     
     @PostMapping("/admin/register")
-    public User registerAdminUser(@RequestBody RegisterRequest registerRequest) throws UserConflictException {
-        return userService.createAdminUser(registerRequest);
+    public ResponseEntity<?> registerAdminUser(@RequestBody RegisterRequest registerRequest) throws UserConflictException {
+        try {
+            User user = userService.createAdminUser(registerRequest);
+            return ResponseEntity.ok(user);
+        } catch (UserConflictException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
  
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
-//        Optional<User> userOptional = Optional.of(userService.getUserByUsername(loginRequest.getUsername()));
-//        if (userOptional.isPresent()) {
-//            User user = userOptional.get();
-////            if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-////                return user;
-////            }
-//            if (loginRequest.getPassword().equals(user.getPassword())) {
-//            	return user;
-//			}
-//        }
-//        throw new UserNotFoundException("Invalid username or password");
-        
-        System.out.println("Inside Login===============");
-		String token=authService.login(loginRequest);
-		System.out.println( "Username " + loginRequest.getUsername());
-		AuthResponse authResponse=new AuthResponse();
-		authResponse.setAccessToken(token);
-		return ResponseEntity.ok(authResponse);
+        try {
+            System.out.println("Inside Login===============");
+            String token = authService.login(loginRequest);
+            System.out.println("Username " + loginRequest.getUsername());
+            AuthResponse authResponse = new AuthResponse();
+            authResponse.setAccessToken(token);
+            return ResponseEntity.ok(authResponse);
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
     }
+
 	
 	
 //    @PostMapping("/token")

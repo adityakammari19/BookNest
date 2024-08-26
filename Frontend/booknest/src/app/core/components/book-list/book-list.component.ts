@@ -2,13 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Book } from '../../models/book';
 import { BookService } from '../../services/book.service';
 import { BookCardComponent } from '../book-card/book-card.component';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-book-list',
   standalone: true,
-  imports: [BookCardComponent, NgFor],
+  imports: [BookCardComponent, NgFor, NgIf],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css',
 })

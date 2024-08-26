@@ -2,8 +2,10 @@ package com.cts.userservice.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -21,17 +23,19 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public String login(LoginRequest loginRequest) {
-		
-		UsernamePasswordAuthenticationToken authenticationToken
-			=new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
-					loginRequest.getPassword());
-		
-	 Authentication authentication=authenticationManager.authenticate(authenticationToken);
-		
-	 SecurityContextHolder.getContext().setAuthentication(authentication);
-	 	
-	 	String token=jwtTokenProvider.generateToken(authentication);
+	    try {
+	        UsernamePasswordAuthenticationToken authenticationToken =
+	            new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
 
-		return token;
+	        Authentication authentication = authenticationManager.authenticate(authenticationToken);
+
+	        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+	        String token = jwtTokenProvider.generateToken(authentication);
+	        return token;
+	    } catch (AuthenticationException e) {
+	        throw new BadCredentialsException("Invalid username or password");
+	    }
 	}
+
 }

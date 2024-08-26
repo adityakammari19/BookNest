@@ -50,10 +50,13 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User createUser(RegisterRequest newUser) throws UserConflictException {
-		User user = new User();
 		if (getUserByUsername(newUser.getUsername()) != null) {
-			throw new UserConflictException("User already exists with username " + newUser.getUsername());
-			}
+	        throw new UserConflictException("User already exists with username " + newUser.getUsername());
+	    }
+	    if (getUserByEmail(newUser.getEmail()) != null) {
+	        throw new UserConflictException("User already exists with email " + newUser.getEmail());
+	    }
+	    User user = new User();
 		user.setUsername(newUser.getUsername());
         user.setEmail(newUser.getEmail());
         user.setFirstName(newUser.getFirstName());
@@ -66,10 +69,13 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public User createAdminUser(RegisterRequest newUser) throws UserConflictException {
-		User user = new User();
 		if (getUserByUsername(newUser.getUsername()) != null) {
-			throw new UserConflictException("User already exists with username " + newUser.getUsername());
-			}
+	        throw new UserConflictException("User already exists with username " + newUser.getUsername());
+	    }
+	    if (getUserByEmail(newUser.getEmail()) != null) {
+	        throw new UserConflictException("User already exists with email " + newUser.getEmail());
+	    }
+	    User user = new User();
 		user.setUsername(newUser.getUsername());
         user.setEmail(newUser.getEmail());
         user.setFirstName(newUser.getFirstName());

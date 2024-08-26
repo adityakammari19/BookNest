@@ -1,0 +1,9 @@
+.card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .card-img-top {
+    padding-top: 10px; /* Adjust the value as needed */
+  }
+    

@@ -1,27 +1,89 @@
+<app-admin-header></app-admin-header>
+
 <div class="container d-flex justify-content-center align-items-center">
   <div class="card p-4" style="width: 100%; max-width: 500px">
     <h2 class="text-center mb-4">Add Book</h2>
     <form [formGroup]="bookForm" class="row g-3" (ngSubmit)="onSubmit()">
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
       <label for="bookTitle">Title</label>
       <input id="bookTitle" formControlName="bookTitle" type="text" />
+      <div
+        *ngIf="
+          bookForm.get('bookTitle')?.invalid &&
+          bookForm.get('bookTitle')?.touched
+        "
+        class="text-danger"
+      >
+        Title is required.
+      </div>
 
       <label for="author">Author</label>
       <input id="author" formControlName="author" type="text" />
+      <div
+        *ngIf="
+          bookForm.get('author')?.invalid && bookForm.get('author')?.touched
+        "
+        class="text-danger"
+      >
+        Author is required.
+      </div>
 
       <label for="price">Price</label>
       <input id="price" formControlName="price" type="number" />
+      <div
+        *ngIf="bookForm.get('price')?.invalid && bookForm.get('price')?.touched"
+        class="text-danger"
+      >
+        Price must be a positive number.
+      </div>
 
       <label for="pageCount">Page Count</label>
       <input id="pageCount" formControlName="pageCount" type="number" />
+      <div
+        *ngIf="
+          bookForm.get('pageCount')?.invalid &&
+          bookForm.get('pageCount')?.touched
+        "
+        class="text-danger"
+      >
+        Page count must be a positive number.
+      </div>
 
-      <label for="categories">Categories(comma seperated)</label>
+      <label for="categories">Categories (comma separated)</label>
       <input id="categories" formControlName="categories" type="text" />
+      <div
+        *ngIf="
+          bookForm.get('categories')?.invalid &&
+          bookForm.get('categories')?.touched
+        "
+        class="text-danger"
+      >
+        Categories are required.
+      </div>
 
       <label for="isbn">ISBN</label>
       <input id="isbn" formControlName="isbn" type="text" />
+      <div
+        *ngIf="bookForm.get('isbn')?.invalid && bookForm.get('isbn')?.touched"
+        class="text-danger"
+      >
+        ISBN is required.
+      </div>
 
       <label for="description">Description</label>
       <textarea id="description" formControlName="description"></textarea>
+      <div
+        *ngIf="
+          bookForm.get('description')?.invalid &&
+          bookForm.get('description')?.touched
+        "
+        class="text-danger"
+      >
+        Description is required.
+      </div>
 
       <label for="coverImage">Cover Image</label>
       <input id="coverImage" type="file" (change)="onFileChange($event)" />

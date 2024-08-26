@@ -23,8 +23,6 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
     });
   }
 
-  //   console.log('Request Headers- ' + req.headers);
-
   return next(req);
 };
 

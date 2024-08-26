@@ -5,6 +5,7 @@ import { CommonModule, CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent } from '../../../../shared/components/loading-spinner/loading-spinner.component';
 import { AuthService } from '../../../services/auth.service';
+import { AdminHeaderComponent } from '../admin-header/admin-header.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +17,7 @@ import { AuthService } from '../../../services/auth.service';
     CommonModule,
     ReactiveFormsModule,
     LoadingSpinnerComponent,
+    AdminHeaderComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
@@ -43,17 +45,5 @@ export class DashboardComponent implements OnInit {
   onEditBook(book: any): void {
     this.selectedBook = book;
     this.router.navigate(['/admin/manage-book', book.bookId]);
-  }
-
-  onAddBook(): void {
-    this.router.navigate(['/admin/add-book']);
-  }
-
-  onEditProfile(): void {
-    this.router.navigate(['/admin/edit-profile']);
-  }
-
-  logout(): void {
-    this.authService.logout();
   }
 }
